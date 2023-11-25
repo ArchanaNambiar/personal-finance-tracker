@@ -42,17 +42,26 @@ let newSpending=[
         });
       const config = {
         data:data,
-        width: 400,
-        height:300,
+        width: 400,//500
+        height:300,//200
         autoFit: false,
         xField: 'date',
         yField: 'amount',
+        point:{
+            size:5,
+            shape:'diamond',
+        },
+        label:{
+            style:{
+                fill:'#aaa',
+            },
+        },
         
       };
       const spendingConfig = {
         data:newSpending,
         width: 400,
-        height:300,
+        height:300,//200
         autoFit: false,
         angleField: "amount",
         colorField: "tag",

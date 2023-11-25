@@ -7,7 +7,8 @@ import AddExpenseModal from '../components/Modal/addExpense';
 import AddIncomeModal from '../components/Modal/addIncome';
 import { toast } from "react-toastify";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { addDoc, collection, getDocs, query } from "firebase/firestore";
+
+import { addDoc, collection, getDocs, query, deleteDoc } from 'firebase/firestore'
 import { auth, db } from "../firebase";
 // import moment from 'moment/moment';
 import TransactionsTable from '../components/TransactionTable/transactionindex';
@@ -72,7 +73,7 @@ const Dashboard = () => {
        const newArr=transactions;
        newArr.push(transaction);
        setTransactions(newArr);
-      
+       calculateBalance();      
     } catch (e) {
       console.error("Error adding document: ", e);
       if(!many)
@@ -127,23 +128,48 @@ let sortedTransactions=transactions.sort((a,b)=>
   return new Date(a.date)-new Date(b.date);
 })
 
+
+async function reset() {
+  try {
+    // First, delete all transactions in the database
+    const transactionCollectionRef = collection(db, `users/${user.uid}/transactions`);
+    const querySnapshot = await getDocs(transactionCollectionRef);
+    
+    // Iterate through the documents and delete them one by one
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+
+    // After deleting the data in the database, reset the state variables
+    setTransactions([]);
+    setIncome(0);
+    setExpenses(0);
+    setTotalBalance(0);
+
+    toast.success("Data reset successfully");
+  } catch (error) {
+    console.error("Error resetting data: ", error);
+    toast.error("Couldn't reset data");
+  }
+}
+
   return (
     <div>
        <Header/>
-       {loading ? (
-        <p>Loading...</p>
-       ):(
+       {
+       loading ? (<p>Loading...</p>):(
         <>
        <Cards
 
           income={income}
           expenses={expenses}
           totalBalance={totalBalance}
+          reset={reset}
           showExpenseModal={showExpenseModal}
           showIncomeModal={showIncomeModal}
           />
 
-          {transactions && transactions.length!=0 ? <Chartsindex  sortedTransactions={sortedTransactions} />:<NoTransactions/>}
+          
         <AddExpenseModal
             isExpenseModalVisible={isExpenseModalVisible}
             handleExpenseCancel={handleExpenseCancel}
@@ -154,6 +180,9 @@ let sortedTransactions=transactions.sort((a,b)=>
             handleIncomeCancel={handleIncomeCancel}
             onFinish={onFinish}
             />
+
+        { transactions && transactions.length!=0 ? <Chartsindex  sortedTransactions={sortedTransactions} />:<NoTransactions/>}
+
         <TransactionsTable transactions={transactions} 
         addTransaction={addTransaction} 
         fetchTransactions={fetchTransactions}/>
