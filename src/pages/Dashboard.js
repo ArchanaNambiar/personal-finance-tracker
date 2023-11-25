@@ -143,7 +143,7 @@ let sortedTransactions=transactions.sort((a,b)=>
           showIncomeModal={showIncomeModal}
           />
 
-          {transactions.length!=0 ? <Chartsindex  sortedTransactions={sortedTransactions} />:<NoTransactions/>}
+          {transactions && transactions.length!=0 ? <Chartsindex  sortedTransactions={sortedTransactions} />:<NoTransactions/>}
         <AddExpenseModal
             isExpenseModalVisible={isExpenseModalVisible}
             handleExpenseCancel={handleExpenseCancel}

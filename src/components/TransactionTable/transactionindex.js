@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const { Option } = Select;
 
-function TransactionsTable({transactions,addTransaction})  {
+function TransactionsTable({transactions,addTransaction,fetchTransactions})  {
 const [search,setSearch]=useState("");
 const [typeFilter,setTypeFilter]=useState("");
 const [sortKey, setSortKey] = useState("");
@@ -88,8 +88,8 @@ const [sortKey, setSortKey] = useState("");
             }
           },
         });
-        // toast.success("All Transactions Added");
-        // fetchTransactions();
+         toast.success("All Transactions Added");
+        fetchTransactions();
         event.target.files = null;
       } catch (e) {
         toast.error(e.message);
@@ -100,8 +100,8 @@ const [sortKey, setSortKey] = useState("");
     
  <div
     style={{
-      width: "100%",
-      padding: "0rem 2rem",
+      
+      margin: "30px"
     }}
   >
     <div

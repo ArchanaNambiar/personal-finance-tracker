@@ -13,7 +13,7 @@ function Chartsindex({sortedTransactions}) {
         }
     });
 
-    let finalSpending = spendingData.reduce((acc,obj) => {
+    let finalSpendings = spendingData.reduce((acc,obj) => {
         let key = obj.tag;
         if(!acc[key]){
             acc[key] = { tag : obj.tag, amount:obj.amount};//create a new object with the same properties
@@ -22,8 +22,9 @@ function Chartsindex({sortedTransactions}) {
         }
         return acc;
     },{});
-
-    let newSpending=[
+console.log("Spending Array",Object.values(finalSpendings));
+    
+let newSpending=[
         { tag:"food",amount:0 },
         {tag:"education",amount:0},
         {tag:"office",amount:0},
@@ -41,16 +42,18 @@ function Chartsindex({sortedTransactions}) {
         });
       const config = {
         data:data,
-        width: 500,
-        autoFit: true,
+        width: 400,
+        height:300,
+        autoFit: false,
         xField: 'date',
         yField: 'amount',
         
       };
       const spendingConfig = {
         data:newSpending,
-        width: 500,
-        autoFit: true,
+        width: 400,
+        height:300,
+        autoFit: false,
         angleField: "amount",
         colorField: "tag",
       };
@@ -58,14 +61,27 @@ function Chartsindex({sortedTransactions}) {
       let pieChart;
   return (
     <div className='charts-wrapper'>
-        <div>
-            <h2 style={{marginTop:0}}>Your Analytics </h2>
-            <Line {...config} onReady={(chartInstance) => (chart = chartInstance)} />
-        </div>
-        <div>
-            <h2>Your Spendings </h2>
-            <Pie { ...spendingConfig} onReady={(chartInstance) => (pieChart = chartInstance)}/>
-        </div>
+        <div class="ant-row my-row css-dev-only-do-not-override-nllxry">
+            <div className='ant-card ant-card-bordered my-card css-dev-only-do-not-override-nllxry'>
+                <div class="ant-card-body">
+                    <div>
+                        <h2 style={{marginTop:0}}>Your Analytics </h2>
+                        <Line {...config} onReady={(chartInstance) => (chart = chartInstance)} />
+                    </div>
+                </div>
+            </div>
+            <div className='ant-card ant-card-bordered my-card css-dev-only-do-not-override-nllxry'>
+                <div class="ant-card-body">
+                    <div>
+                        <h2>Your Spendings </h2>
+                        <Pie { ...spendingConfig} onReady={(chartInstance) => (pieChart = chartInstance)}/>
+                    </div>
+                </div>
+            </div>
+</div>
+       
+       
+
     </div>
   )
 }
