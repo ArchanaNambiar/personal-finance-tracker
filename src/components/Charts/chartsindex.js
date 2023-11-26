@@ -42,20 +42,25 @@ let newSpending=[
         });
       const config = {
         data:data,
+        padding: 'auto',
         width: 400,//500
         height:300,//200
         autoFit: false,
         xField: 'date',
         yField: 'amount',
-        point:{
-            size:5,
-            shape:'diamond',
-        },
+        // point:{
+        //     size:5,
+        //     shape:'diamond',
+        // },
         label:{
             style:{
                 fill:'#aaa',
             },
         },
+        xAxis: {
+            // type: 'timeCat',
+            tickCount: 5,
+          },
         
       };
       const spendingConfig = {
@@ -82,7 +87,7 @@ let newSpending=[
             <div className='ant-card ant-card-bordered my-card css-dev-only-do-not-override-nllxry'>
                 <div class="ant-card-body">
                     <div>
-                        <h2>Your Spendings </h2>
+                        <h2 style={{marginTop:0}}>Your Spendings </h2>
                         <Pie { ...spendingConfig} onReady={(chartInstance) => (pieChart = chartInstance)}/>
                     </div>
                 </div>

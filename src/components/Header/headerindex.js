@@ -40,7 +40,7 @@ const Header = () => {
     <p className='logo'>Finance Tracker</p>
     
     {user && (
-    <div style={{display:"flex",alignItems:"center",gap:"0.75rem"}}>
+    <div style={{display:"flex",alignItems:"center",gap:"0.75rem", paddingRight: "10px"}}>
       <img 
          src={user.photoURL ? user.photoURL :userImg}
          
